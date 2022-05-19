@@ -20,3 +20,8 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/upload', [App\Http\Controllers\UploadController::class, 'index'])->name('upaload_index');
+Route::post('/upload', [App\Http\Controllers\UploadController::class, 'scan'])->name('upaload_save');
+
+Route::post('/remove_path', [App\Http\Controllers\UploadController::class, 'remove_path'])->name('remove_path');
