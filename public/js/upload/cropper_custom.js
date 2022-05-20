@@ -63,8 +63,6 @@ $('#simpan').on("click", function () {
     return
   }
 
-  console.log(target.src);
-
   $.ajax({
     headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
