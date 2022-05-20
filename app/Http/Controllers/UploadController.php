@@ -58,4 +58,18 @@ class UploadController extends Controller
         $request->session()->forget(['folder_name', 'path']);
         return redirect()->action([UploadController::class, 'index']);
     }
+
+    public function detail_copper(Request $request)
+    {
+        $pass = [
+            "file_name"=>$request->file_name
+        ];
+        return view('upload/detail_copper', $pass);
+    }
+
+    public function show_image(Request $request)
+    {     
+        $fullpath = $request->query('p');
+        return response()->file($fullpath);
+    }
 }

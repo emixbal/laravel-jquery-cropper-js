@@ -14,8 +14,8 @@
             @csrf
             
             <div class="form-group">
-                <label>Nama Kecamatan</label>
-                <input type="text" class="form-control" name="kecamatan" value="{{ old('kecamatan') }}">
+                <label>Folder Name</label>
+                <input type="text" class="form-control" name="folder_name" value="{{ old('folder_name') }}">
             </div>
             
             <div class="form-group">

@@ -23,5 +23,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::get('/upload', [App\Http\Controllers\UploadController::class, 'index'])->name('upaload_index');
 Route::post('/upload', [App\Http\Controllers\UploadController::class, 'scan'])->name('upaload_save');
+Route::get('/detail_copper/{file_name}', [App\Http\Controllers\UploadController::class, 'detail_copper'])->name('detail_copper');
 
 Route::post('/remove_path', [App\Http\Controllers\UploadController::class, 'remove_path'])->name('remove_path');
+Route::get('/show_image', [App\Http\Controllers\UploadController::class, 'show_image'])->name('show_image');

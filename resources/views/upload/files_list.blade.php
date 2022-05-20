@@ -24,7 +24,7 @@ echo "path: ".session('path')."<br />";
 
 @foreach($files as $file)
     @if ($file != '.' && $file != '..')
-        <a href="{{ url('/') }}">{{$file}}</a>
+        <a href="{{ url('/detail_copper') }}/{{$file}}">{{$file}}</a>
         <br />
     @endif
 @endforeach
