@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use \DB;
+use \URL;
 
 class UploadController extends Controller
 {
@@ -128,5 +129,59 @@ class UploadController extends Controller
         } catch(Exception $e) {
             print_r($e);
         }
+    }
+
+    public function uploaded_list(Request $request){
+        $filter_is_foto_avail = $request->query('is_foto_avail');
+        $filter_nama = ($request->query('nama'))?$request->query('nama'):'';
+        $filter_folder_name = ($request->query('folder_name'))?$request->query('folder_name'):'';
+
+        $per_page = ($request->query('per_page'))?$request->query('per_page'):50; //default 50
+        $page = ($request->query('page'))?$request->query('page'):1;
+
+        $skip = ($page-1)*$per_page;
+
+        $current_url = URL::current()."?";
+
+        $total_data = DB::table('anggota')->count();
+        $total_pages = ceil($total_data / $per_page);
+
+        $query = DB::table('anggota')
+        ->skip($skip)->take($per_page);
+        
+        if($filter_is_foto_avail!=""){
+            $query->where('is_photo_avail', $filter_is_foto_avail);
+        }
+
+        if($filter_nama!=""){
+            $query->where('nama', 'like', $filter_nama);
+        }
+        
+        if($filter_folder_name!=""){
+            $query->where('folder_name', 'like', $filter_folder_name);
+        }
+
+        $anggota = $query->get();
+
+        $current_url .= "&is_foto_avail=".$filter_is_foto_avail;
+        $current_url .= "&nama=".$filter_nama;
+        $current_url .= "&folder_name=".$filter_folder_name;
+
+        $pass = [
+            "anggotas" => $anggota,
+            "url" => $current_url,
+            "page" => $page,
+            "total_pages" => $total_pages,
+        ];
+        return view('upload/uploaded_list', $pass);
+    }
+
+    public function uploaded_list_filter(Request $request)
+    {
+        $filter_is_foto_avail = $_POST['is_foto_avail'];
+        $filter_nama = ($request->input('nama'))?$request->input('nama'):'';
+        $filter_folder_name = ($request->input('folder_name'))?$request->input('folder_name'):'';
+
+        return redirect("/uploaded_list?is_foto_avail=".$filter_is_foto_avail."&nama=".$filter_nama."&folder_name=".$filter_folder_name);
     }
 }

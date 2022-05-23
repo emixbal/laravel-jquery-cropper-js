@@ -27,3 +27,6 @@ Route::get('/detail_cropper/{file_name}', [App\Http\Controllers\UploadController
 Route::post('/remove_path', [App\Http\Controllers\UploadController::class, 'remove_path'])->name('remove_path');
 Route::get('/show_image', [App\Http\Controllers\UploadController::class, 'show_image'])->name('show_image');
 Route::post('/anggota_save', [App\Http\Controllers\UploadController::class, 'anggota_save'])->name('anggota_save');
+
+Route::get('/uploaded_list', [App\Http\Controllers\UploadController::class, 'uploaded_list'])->name('uploaded_list');
+Route::post('/uploaded_list_filter', [App\Http\Controllers\UploadController::class, 'uploaded_list_filter'])->name('uploaded_list_filter');
