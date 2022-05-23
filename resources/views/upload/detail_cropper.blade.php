@@ -13,9 +13,7 @@
 
   <div class="col-sm-4">
     <div class="rectangle">
-      <div id="place_image">
-        test
-      </div>
+      <div id="place_image"></div>
     </div>
     <button class="btn btn-primary" id="crop">
       crop
@@ -27,6 +25,11 @@
     <button class="btn btn-primary" id="plus">
       >>
     </button>
+
+    <div class="form-check mt-2">
+      <input class="form-check-input" type="checkbox" id="is_no_photo" name="is_no_photo" value=1>
+      <label class="form-check-label">Belum ada foto?</label>
+    </div> 
     
     <hr />
       <input type="text" id="file_name" value="{{ $file_name }}" hidden> 
@@ -86,6 +89,7 @@
       background-color: #000;
       text-align: center;
       padding-top: 20px;
+      margin-bottom: 10px;
     }
 
   </style>

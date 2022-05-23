@@ -60,12 +60,12 @@ class UploadController extends Controller
         return redirect()->action([UploadController::class, 'index']);
     }
 
-    public function detail_copper(Request $request)
+    public function detail_cropper(Request $request)
     {
         $pass = [
             "file_name"=>$request->file_name
         ];
-        return view('upload/detail_copper', $pass);
+        return view('upload/detail_cropper', $pass);
     }
 
     public function show_image(Request $request)
@@ -76,44 +76,47 @@ class UploadController extends Controller
 
     public function anggota_save(Request $request)
     {
-        $file_name = $request->input('file_name');
+        $file_name = "";
         $folder_name = $request->input('folder_name');
         $nama   = $request->input('nama');
         $alamat = $request->input('alamat');
         $pob = $request->input('pob');
         $dob = $request->input('dob');
         $nik = $request->input('nik');
-        $nip = $request->input('nip');
+        $nip = $request->input('nip')??"";
 
         $dob = explode("/", $dob);
         $dob = $dob[2]."-".$dob[0]."-".$dob[1];
 
         $image_base64 = $request->input('image_base64');
-        $base_to_php = explode(',', $image_base64);
-        $data = base64_decode($base_to_php[1]);
-
-        $path_sudah = session('path')."/sudah";
-        $path_ok = session('path')."/ok";
-
-        if(is_dir($path_sudah)==FALSE){
-            mkdir($path_sudah);
+        if($image_base64!=""){
+            $file_name = $request->input('file_name');
+            $base_to_php = explode(',', $image_base64);
+            $data = base64_decode($base_to_php[1]);
+    
+            $path_sudah = session('path')."/sudah";
+            $path_ok = session('path')."/ok";
+    
+            if(is_dir($path_sudah)==FALSE){
+                mkdir($path_sudah);
+            }
+    
+            if(is_dir($path_ok)==FALSE){
+                mkdir($path_ok);
+            }
+    
+            // here you can detect if type is png or jpg if you want
+            $filepath = $path_ok."/".$file_name; // or image.jpg
+    
+            // Save the image in a defined path
+            if(!file_put_contents($filepath, $data)){
+                echo "error";
+                return;
+            }
+    
+            copy(session('path')."/".$file_name, $path_sudah."/".$file_name);
+            unlink(session('path')."/".$file_name);
         }
-
-        if(is_dir($path_ok)==FALSE){
-            mkdir($path_ok);
-        }
-
-        // here you can detect if type is png or jpg if you want
-        $filepath = $path_ok."/".$file_name; // or image.jpg
-
-        // Save the image in a defined path
-        if(!file_put_contents($filepath, $data)){
-            echo "error";
-            return;
-        }
-
-        copy(session('path')."/".$file_name, $path_sudah."/".$file_name);
-        unlink(session('path')."/".$file_name);
 
         $payload = [$nama, $pob, $dob, $alamat, $nik, $nip, session('path'), $folder_name, $file_name];
         try {

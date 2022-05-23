@@ -35,9 +35,20 @@ $("#minus").on("click", function () {
 
 $('#simpan').on("click", function () {
   var target = new Image();
-  var canvas = document.getElementsByTagName('canvas');
-  // DATAURL: Actual image generation via data url
-  target.src = canvas[0].toDataURL();
+  target.src=""
+
+  var is_no_photo = ($('#is_no_photo').is(':checked'))?1:0
+  if(!is_no_photo){
+    var canvas = document.getElementsByTagName('canvas');
+    // DATAURL: Actual image generation via data url
+
+    if(typeof(canvas[0])=="undefined"){
+      alert("Crop foto terlebih dahulu")
+      return
+    }
+
+    target.src = canvas[0].toDataURL();
+  }
 
   var file_name = ($('#file_name').val()) ? $('#file_name').val() : ""
   var folder_name = ($('#folder_name').val()) ? $('#folder_name').val() : ""
@@ -61,6 +72,30 @@ $('#simpan').on("click", function () {
   if (nama == "") {
     alert("nama kosong")
     return
+  }
+
+  if (pob == "") {
+    alert("tempat lahir kosong")
+    return
+  }
+  
+  if (dob == "") {
+    alert("tanggal lahir kosong")
+    return
+  }
+  
+  if (alamat == "") {
+    alert("alamat kosong")
+    return
+  }
+  
+  if (nik == "") {
+    alert("nik kosong")
+    return
+  }
+
+  if(is_no_photo){
+    confirm("Apakah anda yakin upload tanpa foto?"); 
   }
 
   $.ajax({
