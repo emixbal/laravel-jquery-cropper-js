@@ -13,14 +13,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+Route::get('/', [App\Http\Controllers\UploadController::class, 'index'])->name('upaload_index');
 Route::get('/upload', [App\Http\Controllers\UploadController::class, 'index'])->name('upaload_index');
 Route::post('/upload', [App\Http\Controllers\UploadController::class, 'scan'])->name('upaload_save');
 Route::get('/detail_cropper/{file_name}', [App\Http\Controllers\UploadController::class, 'detail_cropper'])->name('detail_cropper');
