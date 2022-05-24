@@ -187,4 +187,21 @@ class UploadController extends Controller
 
         return redirect("/uploaded_list?is_foto_avail=".$filter_is_foto_avail."&nama=".$filter_nama."&folder_name=".$filter_folder_name);
     }
+
+    public function uploaded_detail(Request $request)
+    {
+        $id = $request->id;
+
+        $anggota = DB::table('anggota')
+        ->where('id', $id)
+        ->first();
+
+        $pass = [
+            "id"=>$id,
+            "anggota"=>$anggota,
+        ];
+
+        return view('upload/uploaded_detail', $pass);
+
+    }
 }

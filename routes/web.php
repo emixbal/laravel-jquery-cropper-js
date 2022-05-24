@@ -30,3 +30,4 @@ Route::post('/anggota_save', [App\Http\Controllers\UploadController::class, 'ang
 
 Route::get('/uploaded_list', [App\Http\Controllers\UploadController::class, 'uploaded_list'])->name('uploaded_list');
 Route::post('/uploaded_list_filter', [App\Http\Controllers\UploadController::class, 'uploaded_list_filter'])->name('uploaded_list_filter');
+Route::get('/uploaded_detail/{id}', [App\Http\Controllers\UploadController::class, 'uploaded_detail'])->name('uploaded_detail');

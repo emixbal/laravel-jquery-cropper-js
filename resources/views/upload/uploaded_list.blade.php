@@ -27,7 +27,7 @@
     <tbody>
         @foreach ($anggotas as $anggota)
         <tr>
-            <td>{{$anggota->nama}}</td>
+            <td><a href="{{ url('/uploaded_detail') }}/{{$anggota->id}}">{{$anggota->nama}}</a></td>
             <td>{{$anggota->folder_name}}</td>
             <td>{{$anggota->pob}}, {{$anggota->dob}}</td>
             <td>{{$anggota->alamat}}</td>
