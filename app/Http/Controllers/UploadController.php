@@ -92,7 +92,7 @@ class UploadController extends Controller
         $file_name = $request->input('file_name');
 
         $path_sudah = session('path')."/sudah";
-        $path_ok = session('path')."/ok";
+        $path_ok = base_path()."/foto_anggota"."/".trim($folder_name);
         $is_photo_avail = 0;
 
         if(is_dir($path_sudah)==FALSE){
