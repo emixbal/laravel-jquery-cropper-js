@@ -92,23 +92,25 @@ class UploadController extends Controller
         $file_name = $request->input('file_name');
 
         $path_sudah = session('path')."/sudah";
-        $path_ok = base_path()."/foto_anggota"."/".trim($folder_name);
+        $path_ok = preg_replace('/\s+/', '-', $folder_name);
+        $path_ok_full = base_path()."/foto_anggota"."/".$path_ok;
         $is_photo_avail = 0;
 
         if(is_dir($path_sudah)==FALSE){
             mkdir($path_sudah);
         }
 
-        if(is_dir($path_ok)==FALSE){
-            mkdir($path_ok);
+        if(is_dir($path_ok_full)==FALSE){
+            mkdir($path_ok_full);
         }
 
+        $path_photo = "";
         if($image_base64!=""){
             $base_to_php = explode(',', $image_base64);
             $data = base64_decode($base_to_php[1]);
 
             // here you can detect if type is png or jpg if you want
-            $filepath = $path_ok."/".$file_name; // or image.jpg
+            $filepath = $path_ok_full."/".$file_name; // or image.jpg
 
             // Save the image in a defined path
             if(!file_put_contents($filepath, $data)){
@@ -116,15 +118,16 @@ class UploadController extends Controller
                 return;
             }
             $is_photo_avail = 1;
+            $path_photo = $path_ok;
         }
 
         copy(session('path')."/".$file_name, $path_sudah."/".$file_name);
         unlink(session('path')."/".$file_name);
 
-        $payload = [$nama, $pob, $dob, $alamat, $nik, $nip, session('path'), $folder_name, $file_name, $is_photo_avail];
+        $payload = [$nama, $pob, $dob, $alamat, $nik, $nip, session('path'), $path_photo, $folder_name, $file_name, $is_photo_avail];
         try {
             $results = DB::insert(
-                "insert into anggota (nama, pob, dob, alamat, nik, nip, path, folder_name, file_name, is_photo_avail) values (?,?,?,?,?,?,?,?,?,?)", $payload
+                "insert into anggota (nama, pob, dob, alamat, nik, nip, path, path_photo, folder_name, file_name, is_photo_avail) values (?,?,?,?,?,?,?,?,?,?,?)", $payload
             );
         } catch(Exception $e) {
             print_r($e);
